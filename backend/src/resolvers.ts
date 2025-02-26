@@ -4,6 +4,7 @@ import { Resolvers } from "./types.js";
 import { createArticle } from "./mutations/articles/createArticle.js";
 import { getArticles } from "./mutations/articles/getArticles.js";
 import { updateArticle } from "./mutations/articles/updateArticles.js";
+import { deleteArticle } from "./mutations/articles/deleteArticle.js";
 
 
 export const resolvers: Resolvers = {
@@ -16,6 +17,7 @@ export const resolvers: Resolvers = {
     createUser,
     signIn,
     createArticle,
-    updateArticle
+    updateArticle,
+    deleteArticle
   },
 }
