@@ -1,6 +1,9 @@
 import gql from "graphql-tag";
 
 export const typeDefs = gql`
+  type Query {
+    ping: String!
+  }
   type Mutation {
     createUser(username: String!, password: String!): CreateUserResponse
   }
