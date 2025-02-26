@@ -6,6 +6,7 @@ import { getArticles } from "./mutations/articles/getArticles.js";
 import { updateArticle } from "./mutations/articles/updateArticles.js";
 import { deleteArticle } from "./mutations/articles/deleteArticle.js";
 import { getArticleById } from "./mutations/articles/getArticleById.js";
+import { addLike } from "./mutations/articles/addLike.js";
 
 
 export const resolvers: Resolvers = {
@@ -21,6 +22,7 @@ export const resolvers: Resolvers = {
     signIn,
     createArticle,
     updateArticle,
-    deleteArticle
+    deleteArticle,
+    addLike
   },
 }
