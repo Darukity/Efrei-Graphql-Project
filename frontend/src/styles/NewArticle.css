@@ -1,0 +1,93 @@
+/* Styles pour la page NewArticle uniquement */
+body {
+    margin: 0;
+  }
+.page-content {
+  padding-top: 70px;
+  margin-right: 30px;
+}
+.new-article-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to right, #f8fafc, #e2e8f0);
+  }
+  
+  .new-article-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+  }
+  
+  .new-article-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .new-article-message {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .new-article-message.success {
+    color: #22c55e;
+  }
+  
+  .new-article-message.error {
+    color: #dc2626;
+  }
+  
+  .new-article-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .new-article-input,
+  .new-article-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border 0.3s ease;
+  }
+  
+  .new-article-input:focus,
+  .new-article-textarea:focus {
+    border-color: #2563eb;
+    outline: none;
+  }
+  
+  .new-article-textarea {
+    height: 120px;
+    resize: none;
+  }
+  
+  .new-article-button {
+    background-color: #2563eb;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .new-article-button:hover {
+    background-color: #1e40af;
+  }
+  
+  .new-article-button:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+  }
+  

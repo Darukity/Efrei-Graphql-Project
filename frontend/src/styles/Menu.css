@@ -1,0 +1,140 @@
+/* === Menu Header === */
+.menu-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2c3e50;
+    padding: 15px 20px;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+  
+  /* === Logo & Titre === */
+  .logo-title {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 999px;
+    margin-right: 10px;
+  }
+  
+  .site-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  /* === Navigation === */
+  .nav-links {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    color: #f39c12;
+  }
+  /* Style pour la section d'authentification */
+.auth-section {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-register {
+  display: flex;
+  gap: 15px; 
+}
+
+.auth-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff; 
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.repousse {
+  margin-right: 30px;
+}
+.auth-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05); 
+}
+
+.auth-button:active {
+  background-color: #004085; 
+  transform: scale(0.98); 
+}
+
+.auth-button:disabled {
+  background-color: #cccccc; 
+  cursor: not-allowed;
+}
+
+  
+  /* === Profil & Déconnexion === */
+  .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-right: 30px;
+  }
+  
+  .username {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .logout-button {
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .logout-button:hover {
+    background-color: #c0392b;
+  }
+  
+  /* === Responsive Design === */
+  @media (max-width: 768px) {
+    .menu-container {
+      flex-direction: column;
+      height: auto;
+      padding: 10px;
+    }
+  
+    .nav-links {
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+  
+    .profile-section {
+      margin-top: 10px;
+    }
+  }
+  
