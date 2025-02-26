@@ -4,6 +4,7 @@ export const typeDefs = gql`
   type Query {
     ping: String!
     getArticles: [Article] 
+    getArticleById(id: ID!): Article
 
   }
   type Mutation {
@@ -39,11 +40,22 @@ export const typeDefs = gql`
     message: String!
   }
 
-  type Article {
+ type Article {
     id: ID!
     title: String!
     content: String!
     author: User!
+    comments: [Comment]! 
+    likesCount: Int! 
+    createdAt: String!
+  }
+
+
+
+  type Comment {
+    id: ID!
+    content: String!
+    user: User!
     createdAt: String!
   }
 
