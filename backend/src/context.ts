@@ -1,9 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import { AuthenticatedUser } from "./modules/auth";
 
-export type Context = {
-  dataSources: {
-    db: PrismaClient,
-  };
-  user: AuthenticatedUser | null
-};
+const db = new PrismaClient();
+
+console.log("📌 Modèles disponibles dans Prisma après RESET:", Object.keys(db)); // 🔍 Vérifie si `article` est bien là
+
+export { db };
+

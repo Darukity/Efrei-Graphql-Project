@@ -8,7 +8,42 @@ datasource db {
 }
 
 model User {
-  id       String @id @unique @default(uuid())
-  username String @unique
+  id       String    @id @unique @default(uuid())
+  username String    @unique
   password String
+  articles Article[] // Un utilisateur peut écrire plusieurs articles
+  likes    Like[]    // Un utilisateur peut aimer plusieurs articles
+  comments Comment[] // Un utilisateur peut commenter plusieurs articles
 }
+
+model Article {
+  id        String    @id @default(uuid())
+  title     String
+  content   String
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  likes     Like[]    // Un article peut recevoir plusieurs likes
+  comments  Comment[] // Un article peut recevoir plusieurs commentaires
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  userId    String
+  articleId String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId]) // Un utilisateur ne peut aimer un article qu'une seule fois
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  userId    String
+  articleId String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+}
+

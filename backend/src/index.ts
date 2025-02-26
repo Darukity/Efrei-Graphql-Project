@@ -18,7 +18,7 @@ const { url } = await startStandaloneServer(server, {
     return {
       dataSources: {
         db,
-      },
+      }, 
       user
     }
   }
