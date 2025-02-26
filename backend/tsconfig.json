@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es2017",            // Permet l'utilisation de 'await'
+    "module": "es2022",            // Permet l'utilisation de 'await' au niveau supérieur
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
