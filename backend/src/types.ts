@@ -20,10 +20,20 @@ export type Scalars = {
 export type Article = {
   __typename?: 'Article';
   author: User;
+  comments: Array<Maybe<Comment>>;
   content: Scalars['String']['output'];
   createdAt: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  likesCount: Scalars['Int']['output'];
   title: Scalars['String']['output'];
+};
+
+export type Comment = {
+  __typename?: 'Comment';
+  content: Scalars['String']['output'];
+  createdAt: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  user: User;
 };
 
 export type CreateArticleResponse = {
@@ -90,8 +100,14 @@ export type MutationUpdateArticleArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getArticleById?: Maybe<Article>;
   getArticles?: Maybe<Array<Maybe<Article>>>;
   ping: Scalars['String']['output'];
+};
+
+
+export type QueryGetArticleByIdArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type SignInResponse = {
@@ -181,6 +197,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Article: ResolverTypeWrapper<Article>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Comment: ResolverTypeWrapper<Comment>;
   CreateArticleResponse: ResolverTypeWrapper<CreateArticleResponse>;
   CreateUserResponse: ResolverTypeWrapper<CreateUserResponse>;
   DeleteArticleResponse: ResolverTypeWrapper<DeleteArticleResponse>;
@@ -197,6 +214,7 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Article: Article;
   Boolean: Scalars['Boolean']['output'];
+  Comment: Comment;
   CreateArticleResponse: CreateArticleResponse;
   CreateUserResponse: CreateUserResponse;
   DeleteArticleResponse: DeleteArticleResponse;
@@ -211,10 +229,20 @@ export type ResolversParentTypes = {
 
 export type ArticleResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Article'] = ResolversParentTypes['Article']> = {
   author?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  comments?: Resolver<Array<Maybe<ResolversTypes['Comment']>>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  likesCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CommentResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Comment'] = ResolversParentTypes['Comment']> = {
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -250,6 +278,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getArticleById?: Resolver<Maybe<ResolversTypes['Article']>, ParentType, ContextType, RequireFields<QueryGetArticleByIdArgs, 'id'>>;
   getArticles?: Resolver<Maybe<Array<Maybe<ResolversTypes['Article']>>>, ParentType, ContextType>;
   ping?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
@@ -270,6 +299,7 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
 
 export type Resolvers<ContextType = Context> = {
   Article?: ArticleResolvers<ContextType>;
+  Comment?: CommentResolvers<ContextType>;
   CreateArticleResponse?: CreateArticleResponseResolvers<ContextType>;
   CreateUserResponse?: CreateUserResponseResolvers<ContextType>;
   DeleteArticleResponse?: DeleteArticleResponseResolvers<ContextType>;

@@ -5,12 +5,15 @@ import { createArticle } from "./mutations/articles/createArticle.js";
 import { getArticles } from "./mutations/articles/getArticles.js";
 import { updateArticle } from "./mutations/articles/updateArticles.js";
 import { deleteArticle } from "./mutations/articles/deleteArticle.js";
+import { getArticleById } from "./mutations/articles/getArticleById.js";
 
 
 export const resolvers: Resolvers = {
   Query: {
     ping: () => 'pong',
     getArticles,
+    getArticleById
+    
 
   },
   Mutation: {
