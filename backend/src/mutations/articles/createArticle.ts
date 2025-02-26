@@ -15,8 +15,6 @@ export const createArticle: MutationResolvers["createArticle"] = async (
   }
 
   try {
-    console.log("Database tables:", Object.keys(db)); // ✅ Vérifie si 'article' existe
-
     const article = await db.article.create({
       data: {
         title,
@@ -32,7 +30,10 @@ export const createArticle: MutationResolvers["createArticle"] = async (
       code: 201,
       success: true,
       message: "Article created successfully",
-      article,
+      article: {
+        ...article,
+        createdAt: article.createdAt.toISOString(), 
+      },
     };
   } catch (error) {
     console.error("Error creating article:", error);
@@ -44,3 +45,6 @@ export const createArticle: MutationResolvers["createArticle"] = async (
     };
   }
 };
+
+
+
