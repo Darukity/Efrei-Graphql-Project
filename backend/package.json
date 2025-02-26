@@ -1,36 +1,38 @@
 {
-  "name": "graphql2-ts-project",
+  "name": "first-graphql-server",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node src/index.ts",  
-    "build": "tsc",  
-    "start": "node dist/index.js", 
-    "generate": "graphql-codegen" 
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc",
+    "start": "npm run compile && node ./dist/index.js",
+    "dev": "node --import ./scripts/register.js --watch src/index.ts",
+    "codegen": "graphql-codegen",
+    "prisma": "prisma"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
+  "type": "module",
+  "dependencies": {
+    "@apollo/datasource-rest": "^6.4.1",
+    "@apollo/server": "^4.11.3",
+    "@prisma/client": "^6.4.1",
+    "bcrypt": "^5.1.1",
+    "graphql": "^16.10.0",
+    "graphql-tag": "^2.12.6",
+    "jsonwebtoken": "^9.0.2"
+  },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.5",
+    "@graphql-codegen/typescript": "^4.1.5",
+    "@graphql-codegen/typescript-resolvers": "^4.4.4",
     "@types/bcrypt": "^5.0.2",
-    "@types/express": "^4.17.14",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.13.5",
-    "nodemon": "^3.1.9",
+    "prisma": "^6.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
-  },
-  "dependencies": {
-    "@prisma/client": "^6.4.1",
-    "apollo-server": "^3.13.0",
-    "apollo-server-express": "^3.13.0",
-    "bcrypt": "^5.1.1",
-    "bcryptjs": "^3.0.2",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "graphql": "^16.10.0",
-    "jsonwebtoken": "^9.0.2",
-    "prisma": "^6.4.1"
   }
 }
