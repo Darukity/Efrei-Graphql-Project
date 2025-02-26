@@ -3,11 +3,14 @@ import gql from "graphql-tag";
 export const typeDefs = gql`
   type Query {
     ping: String!
+    getArticles: [Article] 
+
   }
   type Mutation {
     createUser(username: String!, password: String!): CreateUserResponse
     signIn(username: String!, password: String!): SignInResponse!
     createArticle(title: String!, content: String!): CreateArticleResponse
+    updateArticle(id: String!, title: String, content: String): Article
   }
 
   type CreateUserResponse {
