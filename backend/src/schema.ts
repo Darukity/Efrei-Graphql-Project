@@ -5,14 +5,15 @@ export const typeDefs = gql`
     ping: String!
     getArticles: [Article] 
     getArticleById(id: ID!): Article
-
   }
+
   type Mutation {
     createUser(username: String!, password: String!): CreateUserResponse
     signIn(username: String!, password: String!): SignInResponse!
     createArticle(title: String!, content: String!): CreateArticleResponse
     updateArticle(id: String!, title: String, content: String): Article
     deleteArticle(id: ID!): DeleteArticleResponse
+    addLike(articleId: ID!): AddLikeResponse
   }
 
   type CreateUserResponse {
@@ -28,12 +29,14 @@ export const typeDefs = gql`
     message: String!
     token: String
   }
-     type CreateArticleResponse {
+  
+  type CreateArticleResponse {
     code: Int!
     success: Boolean!
     message: String!
     article: Article
   }
+    
   type DeleteArticleResponse {
     code: Int!
     success: Boolean!
@@ -50,8 +53,6 @@ export const typeDefs = gql`
     createdAt: String!
   }
 
-
-
   type Comment {
     id: ID!
     content: String!
@@ -62,5 +63,18 @@ export const typeDefs = gql`
   type User {
     id: ID!
     username: String!
+  }
+
+  type AddLikeResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    article: Article
+  }
+
+  type Like {
+    id: ID!
+    user: User!
+    article: Article!
   }
 `;
