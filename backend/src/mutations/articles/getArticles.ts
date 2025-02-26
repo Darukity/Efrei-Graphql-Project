@@ -11,12 +11,12 @@ export const getArticles: QueryResolvers["getArticles"] = async (_, __, { dataSo
 
     return articles.map((article) => ({
       ...article,
-      createdAt: article.createdAt.toISOString(), // ✅ Convertir la date en string
-      like_count: article.likes.length, // ✅ Ajouter le nombre de likes
+      createdAt: article.createdAt.toISOString(),
+      likesCount: article.likes.length, // ✅ Évite `null`, retourne `0` si aucun like
     }));
   } catch (error) {
     console.error("Error fetching articles:", error);
-    console.log ("done")
     return [];
   }
 };
+

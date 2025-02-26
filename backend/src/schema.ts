@@ -69,7 +69,7 @@ export const typeDefs = gql`
     code: Int!
     success: Boolean!
     message: String!
-    article: Article
+    likesCount: Int! # ✅ Retourne le nouveau nombre de likes après l'ajout
   }
 
   type Like {
