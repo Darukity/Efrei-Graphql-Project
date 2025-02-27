@@ -8,13 +8,14 @@ import { deleteArticle } from "./mutations/articles/deleteArticle.js";
 import { getArticleById } from "./mutations/articles/getArticleById.js";
 import { addLike } from "./mutations/articles/addLike.js";
 import { addComment } from "./mutations/articles/addComment.js";
-
+import { getUserArticles } from "./mutations/articles/getUserArticles.js";
 
 export const resolvers: Resolvers = {
   Query: {
     ping: () => 'pong',
     getArticles,
-    getArticleById
+    getArticleById,
+    getUserArticles
     
 
   },
@@ -25,7 +26,8 @@ export const resolvers: Resolvers = {
     updateArticle,
     deleteArticle,
     addLike,
-    addComment
+    addComment,
+    
   },
   Article: {
     likesCount: (parent, _, { dataSources: { db } }) => {
