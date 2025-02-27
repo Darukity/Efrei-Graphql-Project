@@ -34,7 +34,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         localStorage.setItem("token", data.signIn.token);
         localStorage.setItem("username", username); 
         onLogin(username); 
-        navigate("/dashboard");
+        navigate("/");
       } else {
         console.error("Échec de connexion :", data.signIn.message);
       }

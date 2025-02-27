@@ -34,7 +34,7 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
         localStorage.setItem("token", data.createUser.token);
         localStorage.setItem("username", username); 
         onRegister(username); 
-        navigate("/dashboard");
+        navigate("/");
       } else {
         console.error("Échec de l'inscription :", data.createUser.message);
       }
