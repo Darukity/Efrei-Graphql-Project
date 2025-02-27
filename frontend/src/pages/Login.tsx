@@ -6,19 +6,21 @@ import "../styles/Login.css";
 
 
 const LOGIN_MUTATION = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-    }
+  mutation SignIn($username: String!, $password: String!) {
+  signIn(username: $username, password: $password) {
+    message
+    success
+    token
   }
+}
 `;
 
 interface LoginProps {
-  onLogin: () => void;
+  onLogin: (username: string) => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [login, { loading, error }] = useMutation(LOGIN_MUTATION);
@@ -26,10 +28,16 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const { data } = await login({ variables: { email, password } });
-      localStorage.setItem("token", data.login.token);
-      onLogin();
-      navigate("/dashboard");
+      const { data } = await login({ variables: { username, password } });
+  
+      if (data.signIn.success) {
+        localStorage.setItem("token", data.signIn.token);
+        localStorage.setItem("username", username); 
+        onLogin(username); 
+        navigate("/dashboard");
+      } else {
+        console.error("Échec de connexion :", data.signIn.message);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -39,7 +47,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     <div className="login-form-container">
       <h2>Connexion</h2>
       <form onSubmit={handleSubmit}>
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
         <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} required />
         <button type="submit" disabled={loading}>
           {loading ? "Connexion..." : "Se connecter"}

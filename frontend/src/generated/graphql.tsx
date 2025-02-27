@@ -17,44 +17,76 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AddLikeResponse = {
+  __typename?: 'AddLikeResponse';
+  code: Scalars['Int']['output'];
+  likesCount: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
 export type Article = {
   __typename?: 'Article';
   author: User;
-  comments: Array<Comment>;
+  comments: Array<Maybe<Comment>>;
   content: Scalars['String']['output'];
   createdAt: Scalars['String']['output'];
   id: Scalars['ID']['output'];
-  likes: Scalars['Int']['output'];
+  likesCount: Scalars['Int']['output'];
   title: Scalars['String']['output'];
-};
-
-export type AuthPayload = {
-  __typename?: 'AuthPayload';
-  token: Scalars['String']['output'];
-  user: User;
 };
 
 export type Comment = {
   __typename?: 'Comment';
-  author: User;
   content: Scalars['String']['output'];
   createdAt: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  user: User;
+};
+
+export type CreateArticleResponse = {
+  __typename?: 'CreateArticleResponse';
+  article?: Maybe<Article>;
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
+export type CreateUserResponse = {
+  __typename?: 'CreateUserResponse';
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+  user?: Maybe<User>;
+};
+
+export type DeleteArticleResponse = {
+  __typename?: 'DeleteArticleResponse';
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
+export type Like = {
+  __typename?: 'Like';
+  article: Article;
+  id: Scalars['ID']['output'];
+  user: User;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  commentArticle: Comment;
-  createArticle: Article;
-  likeArticle: Article;
-  login: AuthPayload;
-  register: AuthPayload;
+  addLike?: Maybe<AddLikeResponse>;
+  createArticle?: Maybe<CreateArticleResponse>;
+  createUser?: Maybe<CreateUserResponse>;
+  deleteArticle?: Maybe<DeleteArticleResponse>;
+  signIn: SignInResponse;
+  updateArticle?: Maybe<Article>;
 };
 
 
-export type MutationCommentArticleArgs = {
+export type MutationAddLikeArgs = {
   articleId: Scalars['ID']['input'];
-  content: Scalars['String']['input'];
 };
 
 
@@ -64,55 +96,67 @@ export type MutationCreateArticleArgs = {
 };
 
 
-export type MutationLikeArticleArgs = {
-  articleId: Scalars['ID']['input'];
+export type MutationCreateUserArgs = {
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 
-export type MutationLoginArgs = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+export type MutationDeleteArticleArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationRegisterArgs = {
-  email: Scalars['String']['input'];
-  name: Scalars['String']['input'];
+export type MutationSignInArgs = {
   password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateArticleArgs = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  article?: Maybe<Article>;
-  articles: Array<Article>;
-  me?: Maybe<User>;
+  getArticleById?: Maybe<Article>;
+  getArticles?: Maybe<Array<Maybe<Article>>>;
+  ping: Scalars['String']['output'];
 };
 
 
-export type QueryArticleArgs = {
+export type QueryGetArticleByIdArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type SignInResponse = {
+  __typename?: 'SignInResponse';
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+  token?: Maybe<Scalars['String']['output']>;
 };
 
 export type User = {
   __typename?: 'User';
-  articles: Array<Article>;
-  email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
-  name: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
-
-export type LoginMutationVariables = Exact<{
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-}>;
-
-
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthPayload', token: string } };
 
 export type GetArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetArticlesQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'Article', id: string, title: string, content: string, likes: number, comments: Array<{ __typename?: 'Comment', id: string, content: string }> }> };
+export type GetArticlesQuery = { __typename?: 'Query', getArticles?: Array<{ __typename?: 'Article', id: string, title: string, likesCount: number, createdAt: string, content: string, author: { __typename?: 'User', username: string } } | null> | null };
+
+export type SignInMutationVariables = Exact<{
+  username: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'SignInResponse', message: string, success: boolean, token?: string | null } };
 
 export type CreateArticleMutationVariables = Exact<{
   title: Scalars['String']['input'];
@@ -120,53 +164,27 @@ export type CreateArticleMutationVariables = Exact<{
 }>;
 
 
-export type CreateArticleMutation = { __typename?: 'Mutation', createArticle: { __typename?: 'Article', id: string, title: string } };
+export type CreateArticleMutation = { __typename?: 'Mutation', createArticle?: { __typename?: 'CreateArticleResponse', success: boolean } | null };
+
+export type CreateUserMutationVariables = Exact<{
+  username: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
 
 
-export const LoginDocument = gql`
-    mutation Login($email: String!, $password: String!) {
-  login(email: $email, password: $password) {
-    token
-  }
-}
-    `;
-export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename?: 'CreateUserResponse', code: number, message: string, success: boolean } | null };
 
-/**
- * __useLoginMutation__
- *
- * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLoginMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [loginMutation, { data, loading, error }] = useLoginMutation({
- *   variables: {
- *      email: // value for 'email'
- *      password: // value for 'password'
- *   },
- * });
- */
-export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
-      }
-export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
-export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+
 export const GetArticlesDocument = gql`
     query GetArticles {
-  articles {
+  getArticles {
     id
     title
+    likesCount
+    createdAt
     content
-    likes
-    comments {
-      id
-      content
+    author {
+      username
     }
   }
 }
@@ -203,11 +221,46 @@ export type GetArticlesQueryHookResult = ReturnType<typeof useGetArticlesQuery>;
 export type GetArticlesLazyQueryHookResult = ReturnType<typeof useGetArticlesLazyQuery>;
 export type GetArticlesSuspenseQueryHookResult = ReturnType<typeof useGetArticlesSuspenseQuery>;
 export type GetArticlesQueryResult = Apollo.QueryResult<GetArticlesQuery, GetArticlesQueryVariables>;
+export const SignInDocument = gql`
+    mutation SignIn($username: String!, $password: String!) {
+  signIn(username: $username, password: $password) {
+    message
+    success
+    token
+  }
+}
+    `;
+export type SignInMutationFn = Apollo.MutationFunction<SignInMutation, SignInMutationVariables>;
+
+/**
+ * __useSignInMutation__
+ *
+ * To run a mutation, you first call `useSignInMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignInMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signInMutation, { data, loading, error }] = useSignInMutation({
+ *   variables: {
+ *      username: // value for 'username'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useSignInMutation(baseOptions?: Apollo.MutationHookOptions<SignInMutation, SignInMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignInMutation, SignInMutationVariables>(SignInDocument, options);
+      }
+export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
+export type SignInMutationResult = Apollo.MutationResult<SignInMutation>;
+export type SignInMutationOptions = Apollo.BaseMutationOptions<SignInMutation, SignInMutationVariables>;
 export const CreateArticleDocument = gql`
     mutation CreateArticle($title: String!, $content: String!) {
   createArticle(title: $title, content: $content) {
-    id
-    title
+    success
   }
 }
     `;
@@ -238,3 +291,39 @@ export function useCreateArticleMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateArticleMutationHookResult = ReturnType<typeof useCreateArticleMutation>;
 export type CreateArticleMutationResult = Apollo.MutationResult<CreateArticleMutation>;
 export type CreateArticleMutationOptions = Apollo.BaseMutationOptions<CreateArticleMutation, CreateArticleMutationVariables>;
+export const CreateUserDocument = gql`
+    mutation CreateUser($username: String!, $password: String!) {
+  createUser(username: $username, password: $password) {
+    code
+    message
+    success
+  }
+}
+    `;
+export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
+
+/**
+ * __useCreateUserMutation__
+ *
+ * To run a mutation, you first call `useCreateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
+ *   variables: {
+ *      username: // value for 'username'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
+      }
+export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
+export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;

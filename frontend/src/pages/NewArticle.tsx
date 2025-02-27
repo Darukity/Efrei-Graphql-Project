@@ -6,9 +6,8 @@ import "../styles/NewArticle.css";
 const CREATE_ARTICLE = gql`
   mutation CreateArticle($title: String!, $content: String!) {
     createArticle(title: $title, content: $content) {
-      id
-      title
-      content
+      success
+      message
     }
   }
 `;
@@ -19,11 +18,6 @@ const NewArticle: React.FC = () => {
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const [createArticle, { loading }] = useMutation(CREATE_ARTICLE, {
-    onCompleted: () => {
-      setMessage({ type: "success", text: "Article créé avec succès !" });
-      setTitle("");
-      setContent("");
-    },
     onError: (error) => {
       setMessage({ type: "error", text: error.message });
     },
@@ -31,11 +25,31 @@ const NewArticle: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+  console.log(localStorage.getItem("token"));
     if (!title || !content) {
       setMessage({ type: "error", text: "Veuillez remplir tous les champs." });
       return;
     }
-    await createArticle({ variables: { title, content } });
+  
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setMessage({ type: "error", text: "Vous devez être connecté pour créer un article." });
+      return;
+    }
+  
+    try {
+      const { data } = await createArticle({ variables: { title, content } });
+  
+      if (data.createArticle.success) {
+        setMessage({ type: "success", text: "Article créé avec succès !" });
+        setTitle("");
+        setContent("");
+      } else {
+        setMessage({ type: "error", text: data.createArticle.message || "Échec de la création de l'article." });
+      }
+    } catch (err) {
+      setMessage({ type: "error", text: "Une erreur s'est produite. Veuillez réessayer." });
+    }
   };
 
   return (
@@ -50,13 +64,7 @@ const NewArticle: React.FC = () => {
         )}
 
         <form onSubmit={handleSubmit} className="new-article-form">
-          <input
-            type="text"
-            placeholder="Titre de l'article"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="new-article-input"
-          />
+          <input type="text" placeholder="Titre de l'article" value={title} onChange={(e) => setTitle(e.target.value)} className="new-article-input" />
 
           <textarea
             placeholder="Contenu de l'article"

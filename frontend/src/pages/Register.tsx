@@ -6,19 +6,21 @@ import "../styles/Register.css"; // Assurez-vous de créer ce fichier CSS
 
 // Mutation pour enregistrer un utilisateur
 const REGISTER_MUTATION = gql`
-  mutation Register($email: String!, $password: String!) {
-    register(email: $email, password: $password) {
+  mutation CreateUser($username: String!, $password: String!) {
+    createUser(username: $username, password: $password) {
+      success
+      message
       token
     }
   }
 `;
 
 interface RegisterProps {
-  onRegister: () => void;
+  onRegister: (username: string) => void;
 }
 
 const Register: React.FC<RegisterProps> = ({ onRegister }) => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [register, { loading, error }] = useMutation(REGISTER_MUTATION);
@@ -26,10 +28,16 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const { data } = await register({ variables: { email, password } });
-      localStorage.setItem("token", data.register.token);
-      onRegister();
-      navigate("/dashboard");
+      const { data } = await register({ variables: { username, password } });
+
+      if (data.createUser.success) {
+        localStorage.setItem("token", data.createUser.token);
+        localStorage.setItem("username", username); 
+        onRegister(username); 
+        navigate("/dashboard");
+      } else {
+        console.error("Échec de l'inscription :", data.createUser.message);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -39,20 +47,8 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
     <div className="register-form-container">
       <h2>Créer un compte</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <input type="text" placeholder="Nom d'utilisateur" value={username} onChange={(e) => setUsername(e.target.value)} required />
+        <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} required />
         <button type="submit" disabled={loading}>
           {loading ? "Création du compte..." : "Créer un compte"}
         </button>

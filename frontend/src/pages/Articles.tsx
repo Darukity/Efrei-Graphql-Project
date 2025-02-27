@@ -5,17 +5,17 @@ import { Article } from "../generated/graphql";
 
 const GET_ARTICLES = gql`
   query GetArticles {
-    articles {
-      id
-      title
-      content
-      likes
-      comments {
-        id
-        content
-      }
+  getArticles {
+    id
+    title
+    likesCount
+    createdAt
+    content
+    author {
+      username
     }
   }
+}
 `;
 
 const Articles: React.FC = () => {
@@ -27,12 +27,12 @@ const Articles: React.FC = () => {
     return (
       <div>
         <h1>Articles</h1>
-        {data?.articles.map((article: Article) => (
+        {data?.getArticles.map((article: Article) => (
           <div key={article.id}>
             <h2>{article.title}</h2>
             <p>{article.content}</p>
-            <p>Auteur: {article.author.name}</p>
-            <p>Likes: {article.likes}</p>
+            <p>Auteur: {article.author.username}</p>
+            <p>Likes: {article.likesCount}</p>
           </div>
         ))}
       </div>
