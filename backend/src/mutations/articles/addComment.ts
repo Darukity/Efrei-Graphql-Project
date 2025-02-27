@@ -32,9 +32,6 @@ export const addComment: MutationResolvers["addComment"] = async (_, { articleId
         userId: user.id,
         articleId,
       },
-      include: {
-        user: true, // Inclure l'utilisateur qui commente
-      },
     });
 
     return {
@@ -42,10 +39,7 @@ export const addComment: MutationResolvers["addComment"] = async (_, { articleId
       success: true,
       message: "Comment added successfully",
       comment: {
-        id: newComment.id,
-        content: newComment.content,
-        createdAt: newComment.createdAt.toISOString(),
-        user: newComment.user,
+        ...newComment,
       },
     };
   } catch (error) {

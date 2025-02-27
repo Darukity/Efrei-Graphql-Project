@@ -39,7 +39,7 @@ export const addLike: MutationResolvers["addLike"] = async (_, { articleId }, { 
     });
 
     //Retourner le nombre total de likes après l'ajout
-    const likesCount = await db.like.count({ where: { articleId } });
+    const likesCount: number = await db.like.count({ where: { articleId } });
 
     return {
       code: 201,

@@ -8,7 +8,9 @@ const config: CodegenConfig = {
       config: {
         contextType: './context#Context',
         mappers: {
-          // models
+          Article: './src/models#ArticleModel',
+          Comment: './src/models#CommentModel',
+          Like: './src/models#LikeModel',
         }
       }
     }
