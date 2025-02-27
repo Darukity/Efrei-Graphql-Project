@@ -5,6 +5,7 @@ export const typeDefs = gql`
     ping: String!
     getArticles: [Article] 
     getArticleById(id: ID!): Article
+    getUserArticles: GetUserArticlesResponse!
   }
 
   type Mutation {
@@ -15,6 +16,7 @@ export const typeDefs = gql`
     deleteArticle(id: ID!): DeleteArticleResponse
     addLike(articleId: ID!): AddLikeResponse
     addComment(articleId: ID!, content: String!): AddCommentResponse
+   
   }
 
   type CreateUserResponse {
@@ -85,4 +87,11 @@ export const typeDefs = gql`
     message: String!
     comment: Comment
   }
+    type GetUserArticlesResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  articles: [Article]! # ✅ Retourne la liste des articles
+}
+
 `;
