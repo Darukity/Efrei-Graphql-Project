@@ -1,11 +1,10 @@
-import { Article } from "@prisma/client";
 import { QueryResolvers } from "../../types.js";
 
 export const getArticleById: QueryResolvers["getArticleById"] = async (_, { id }, { dataSources: { db } }) => {
   console.log("Recherche de l'article ID :", id);
 
   try {
-    const article: Article = await db.article.findUnique({
+    const article = await db.article.findUnique({
       where: { id },
     });
 

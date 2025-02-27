@@ -1,11 +1,10 @@
-import { Article } from "@prisma/client";
 import { QueryResolvers } from "../../types.js";
 
 export const getArticles: QueryResolvers["getArticles"] = async (_, __, { dataSources: { db } }) => {
   try {
-    const articles: Article[] = await db.article.findMany({});
+    const articles = await db.article.findMany({});
 
-    return articles.map((article: Article) => ({
+    return articles.map((article) => ({
       ...article,
     }));
   } catch (error) {

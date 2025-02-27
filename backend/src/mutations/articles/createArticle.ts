@@ -1,4 +1,3 @@
-import { Article } from "@prisma/client";
 import { MutationResolvers } from "../../types.js";
 
 export const createArticle: MutationResolvers["createArticle"] = async (
@@ -16,7 +15,7 @@ export const createArticle: MutationResolvers["createArticle"] = async (
   }
 
   try {
-    const article: Article = await db.article.create({
+    const article = await db.article.create({
       data: {
         title,
         content,

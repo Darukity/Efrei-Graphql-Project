@@ -1,4 +1,3 @@
-import { Like } from "@prisma/client";
 import { MutationResolvers } from "../../types.js";
 
 export const addLike: MutationResolvers["addLike"] = async (_, { articleId }, { dataSources: { db }, user }) => {
@@ -13,7 +12,7 @@ export const addLike: MutationResolvers["addLike"] = async (_, { articleId }, { 
 
   try {
     // Vérifier si l'utilisateur a déjà liké cet article
-    const existingLike: Like = await db.like.findUnique({
+    const existingLike = await db.like.findUnique({
       where: {
         userId_articleId: {
           userId: user.id,

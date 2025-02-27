@@ -1,4 +1,3 @@
-import { Article } from "@prisma/client";
 import { MutationResolvers } from "../../types.js";
 
 export const updateArticle: MutationResolvers["updateArticle"] = async (
@@ -14,7 +13,7 @@ export const updateArticle: MutationResolvers["updateArticle"] = async (
   }
 
   // Vérifie si l'article existe
-  const article: Article = await db.article.findUnique({
+  const article = await db.article.findUnique({
     where: { id },
   });
 

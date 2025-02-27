@@ -33,7 +33,7 @@ export const resolvers: Resolvers = {
     },
     author: (parent, _, { dataSources: { db } }) => {
       return db.user.findUnique({
-        where: { id: parent.author.id },
+        where: { id: parent.authorId },
       });
     },
     comments: (parent, _, { dataSources: { db } }) => {
@@ -53,7 +53,7 @@ export const resolvers: Resolvers = {
   Comment: {
     user: (parent, _, { dataSources: { db } }) => {
       return db.user.findUnique({
-        where: { id: parent.user.id },
+        where: { id: parent.userId },
       });
     },
     createdAt: (parent) => parent.createdAt.toISOString(),

@@ -1,4 +1,3 @@
-import { Article, Comment } from "@prisma/client";
 import { MutationResolvers } from "../../types.js";
 
 export const addComment: MutationResolvers["addComment"] = async (_, { articleId, content }, { dataSources: { db }, user }) => {
@@ -13,7 +12,7 @@ export const addComment: MutationResolvers["addComment"] = async (_, { articleId
 
   try {
     // Vérifier si l'article existe
-    const article: Article = await db.article.findUnique({
+    const article = await db.article.findUnique({
       where: { id: articleId },
     });
 
@@ -27,7 +26,7 @@ export const addComment: MutationResolvers["addComment"] = async (_, { articleId
     }
 
     // Ajouter le commentaire
-    const newComment: Comment = await db.comment.create({
+    const newComment = await db.comment.create({
       data: {
         content,
         userId: user.id,
