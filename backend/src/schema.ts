@@ -14,6 +14,7 @@ export const typeDefs = gql`
     updateArticle(id: String!, title: String, content: String): Article
     deleteArticle(id: ID!): DeleteArticleResponse
     addLike(articleId: ID!): AddLikeResponse
+    addComment(articleId: ID!, content: String!): AddCommentResponse
   }
 
   type CreateUserResponse {
@@ -72,9 +73,18 @@ export const typeDefs = gql`
     likesCount: Int! # ✅ Retourne le nouveau nombre de likes après l'ajout
   }
 
+
+
   type Like {
     id: ID!
     user: User!
     article: Article!
+  }
+
+   type AddCommentResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    comment: Comment
   }
 `;
