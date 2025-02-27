@@ -73,8 +73,6 @@ export const typeDefs = gql`
     likesCount: Int! # ✅ Retourne le nouveau nombre de likes après l'ajout
   }
 
-
-
   type Like {
     id: ID!
     user: User!

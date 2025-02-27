@@ -27,4 +27,35 @@ export const resolvers: Resolvers = {
     addLike,
     addComment
   },
+  Article: {
+    likesCount: (parent, _, { dataSources: { db } }) => {
+      return db.like.count({ where: { articleId: parent.id } });
+    },
+    author: (parent, _, { dataSources: { db } }) => {
+      return db.user.findUnique({
+        where: { id: parent.author.id },
+      });
+    },
+    comments: (parent, _, { dataSources: { db } }) => {
+      return db.comment.findMany({
+        where: { articleId: parent.id },
+      });
+    },
+    createdAt: (parent) => parent.createdAt.toISOString(),
+  },
+  Like: {
+    user: (parent, _, { dataSources: { db } }) => {
+      return db.user.findUnique({
+        where: { id: parent.user.id },
+      });
+    },
+  },
+  Comment: {
+    user: (parent, _, { dataSources: { db } }) => {
+      return db.user.findUnique({
+        where: { id: parent.user.id },
+      });
+    },
+    createdAt: (parent) => parent.createdAt.toISOString(),
+  },
 }
