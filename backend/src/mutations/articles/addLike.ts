@@ -11,7 +11,7 @@ export const addLike: MutationResolvers["addLike"] = async (_, { articleId }, { 
   }
 
   try {
-    // ✅ Vérifier si l'utilisateur a déjà liké cet article
+    // Vérifier si l'utilisateur a déjà liké cet article
     const existingLike = await db.like.findUnique({
       where: {
         userId_articleId: {
@@ -30,7 +30,7 @@ export const addLike: MutationResolvers["addLike"] = async (_, { articleId }, { 
       };
     }
 
-    // ✅ Ajouter le like s'il n'existe pas encore
+    //Ajouter le like s'il n'existe pas encore
     await db.like.create({
       data: {
         userId: user.id,
@@ -38,7 +38,7 @@ export const addLike: MutationResolvers["addLike"] = async (_, { articleId }, { 
       },
     });
 
-    // ✅ Retourner le nombre total de likes après l'ajout
+    //Retourner le nombre total de likes après l'ajout
     const likesCount = await db.like.count({ where: { articleId } });
 
     return {
@@ -48,7 +48,7 @@ export const addLike: MutationResolvers["addLike"] = async (_, { articleId }, { 
       likesCount,
     };
   } catch (error) {
-    console.error("❌ Error adding like:", error);
+    console.error(" Error adding like:", error);
     return {
       code: 500,
       success: false,
