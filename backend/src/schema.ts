@@ -12,7 +12,7 @@ export const typeDefs = gql`
     createUser(username: String!, password: String!): CreateUserResponse
     signIn(username: String!, password: String!): SignInResponse!
     createArticle(title: String!, content: String!): CreateArticleResponse
-    updateArticle(id: String!, title: String, content: String): Article
+    updateArticle(id: String!, title: String, content: String): UpdateArticleResponse
     deleteArticle(id: ID!): DeleteArticleResponse
     addLike(articleId: ID!): AddLikeResponse
     addComment(articleId: ID!, content: String!): AddCommentResponse
@@ -34,6 +34,13 @@ export const typeDefs = gql`
   }
   
   type CreateArticleResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    article: Article
+  }
+  
+  type UpdateArticleResponse {
     code: Int!
     success: Boolean!
     message: String!
@@ -87,11 +94,11 @@ export const typeDefs = gql`
     message: String!
     comment: Comment
   }
-    type GetUserArticlesResponse {
-  code: Int!
-  success: Boolean!
-  message: String!
-  articles: [Article]! # ✅ Retourne la liste des articles
+  type GetUserArticlesResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    articles: [Article]! # ✅ Retourne la liste des articles
 }
 
 `;
