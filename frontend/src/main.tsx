@@ -47,8 +47,7 @@ const Main: React.FC = () => {
             {/* Route protégée 
             <Route path="/dashboard" element={ <ProtectedRoute isAuthenticated={isAuthenticated}> <Dashboard /> </ProtectedRoute> }/>
 */}
-            {/* Redirection conditionnelle */}
-            <Route path="/old-route" element={<Navigate to="/" />} />
+
 
             {/* Route 404 */}
             <Route path="*" element={<NotFound />} />

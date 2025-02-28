@@ -9,12 +9,6 @@ const REGISTER_MUTATION = gql`
 mutation CreateUser($username: String!, $password: String!) {
   createUser(username: $username, password: $password) {
     success
-    code
-    message
-    user {
-      id
-      username
-    }
   }
 }
 `;
@@ -33,14 +27,8 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
     e.preventDefault();
     try {
       const { data } = await register({ variables: { username, password } });
-
-      console.log(data);
-
       if (data.createUser.success) {
-        localStorage.setItem("token", data.createUser.token);
-        localStorage.setItem("username", username); 
-        onRegister(username); 
-        navigate("/");
+        navigate("/login");
       } else {
         console.error("Échec de l'inscription :", data.createUser.message);
       }

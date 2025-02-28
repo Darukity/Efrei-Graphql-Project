@@ -97,8 +97,15 @@ const ArticleDetail: React.FC = () => {
   const handleAddComment = async () => {
     if (commentContent) {
       try {
-        await addComment({ variables: { articleId: id, content: commentContent } });
-        setCommentContent(""); 
+        const { data } = await addComment({ variables: { articleId: id, content: commentContent } });
+        if (data.addComment.success) {
+          setCommentContent(""); 
+          window.location.reload();
+        }
+        else {
+          window.alert(data.addComment.message)
+          console.log(data.addComment)
+        }
       } catch (error) {
         console.error("Error adding comment:", error);
       }
@@ -112,7 +119,7 @@ const ArticleDetail: React.FC = () => {
         window.location.reload();
       }
       else {
-        window.alert(data.addLike.message)
+        window.alert(data.addLike.message);
       }
     } catch (error) {
       console.error("Error adding like:", error);
@@ -204,7 +211,12 @@ const ArticleDetail: React.FC = () => {
           onChange={(e) => setCommentContent(e.target.value)}
           placeholder="Ajouter un commentaire"
         />
-        <button onClick={handleAddComment}>Ajouter un commentaire</button>
+        <button onClick={() => { 
+          handleAddComment();
+        }}>
+          Ajouter un commentaire
+        </button>
+
       </div>
     </div>
   );
