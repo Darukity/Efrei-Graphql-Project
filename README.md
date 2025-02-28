@@ -19,7 +19,7 @@ Avant de commencer, assure-toi d'avoir installé :
 ### Backend
 Clone le dépôt et installe les dépendances :
 ```bash
-git clone https://github.com/ton-repo.git
+git clone https://github.com/Darukity/Efrei-Graphql-Project.git
 cd backend
 npm install
 ```
@@ -37,8 +37,8 @@ JWT_SECRET="your-secret"  # Clé secrète pour l'authentification JWT
 Exécute les commandes suivantes pour configurer la base de données avec Prisma :
 
 ```bash
-npx prisma migrate dev --name init
-npx prisma db seed  # Optionnel, pour ajouter des données de test
+npm run  prisma migrate dev --name init
+npm run prisma db seed  # Optionnel, pour ajouter des données de test
 ```
 
 ## 🚀 Lancer le serveur
