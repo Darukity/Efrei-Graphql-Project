@@ -13,7 +13,7 @@ const Menu: React.FC<MenuProps> = ({ onLogout, username }) => {
   return (
     <header className="menu-container">
       <div className="logo-title">
-        <img src="https://files.oaiusercontent.com/file-V2QFSRueX4urbczqjP2sz6?se=2025-02-26T14%3A26%3A18Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D8e4c1068-5b3e-4234-b145-26c5db32651e.webp&sig=lrTj8eVlpTq7JdDWiNoNdtSaMEQs6RpoRm16ov9nnbw%3D" alt="Logo" className="logo" />
+        <img src="https://thumbs.dreamstime.com/b/cercle-d-entrelacs-circulaire-icône-géométrique-logo-illustration-du-vecteur-brut-graphiques-clipart-245536748.jpg" alt="Logo" className="logo" />
         <h1 className="site-title">LinkSphere</h1>
       </div>
       
