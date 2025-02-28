@@ -21,7 +21,7 @@ const Menu: React.FC<MenuProps> = ({ onLogout, username }) => {
         <Link to="/" className="nav-link">Accueil</Link>
         <Link to="/articles" className="nav-link">Articles</Link>
         <Link to="/NewArticle" className="nav-link">New Article</Link>
-        <Link to="/contact" className="nav-link">Contact</Link>
+        {username && <Link to="/my-articles" className="nav-link">Mes Articles</Link>}
       </nav>
 
       <div className="auth-section">

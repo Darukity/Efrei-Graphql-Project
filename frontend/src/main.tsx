@@ -11,6 +11,7 @@ import Menu from "./components/Menu";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import ArticleDetail from "./pages/ArticleDetail";
+import UserArticles from "./pages/UserArticles";
 
 const Main: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -43,6 +44,7 @@ const Main: React.FC = () => {
             <Route path="/articles" element={<Articles />} />
             <Route path="/newarticle" element={<ProtectedRoute isAuthenticated={isAuthenticated}> <NewArticle /></ProtectedRoute>} />
             <Route path="/article/:id" element={<ArticleDetail />} />
+            <Route path="/my-articles" element={<ProtectedRoute isAuthenticated={isAuthenticated}> <UserArticles /> </ProtectedRoute>} />
 
             {/* Route 404 */}
             <Route path="*" element={<Home />} />
