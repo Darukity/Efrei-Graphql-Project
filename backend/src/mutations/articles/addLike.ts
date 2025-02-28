@@ -22,15 +22,25 @@ export const addLike: MutationResolvers["addLike"] = async (_, { articleId }, { 
     });
 
     if (existingLike) {
+      // Supprimer le like existant (unlike)
+      await db.like.delete({
+        where: {
+          userId_articleId: {
+            userId: user.id,
+            articleId: articleId,
+          },
+        },
+      });
+
       return {
-        code: 400,
-        success: false,
-        message: "You have already liked this article",
-        likesCount: await db.like.count({ where: { articleId } }), // Retourne le nombre de likes actuel
+        code: 200,
+        success: true,
+        message: "Like removed successfully",
+        likesCount: await db.like.count({ where: { articleId } }),
       };
     }
 
-    //Ajouter le like s'il n'existe pas encore
+    // Ajouter le like s'il n'existe pas encore
     await db.like.create({
       data: {
         userId: user.id,
@@ -38,7 +48,7 @@ export const addLike: MutationResolvers["addLike"] = async (_, { articleId }, { 
       },
     });
 
-    //Retourner le nombre total de likes après l'ajout
+    // Retourner le nombre total de likes après l'ajout
     const likesCount: number = await db.like.count({ where: { articleId } });
 
     return {
@@ -48,7 +58,7 @@ export const addLike: MutationResolvers["addLike"] = async (_, { articleId }, { 
       likesCount,
     };
   } catch (error) {
-    console.error(" Error adding like:", error);
+    console.error("Error adding like:", error);
     return {
       code: 500,
       success: false,
@@ -57,4 +67,3 @@ export const addLike: MutationResolvers["addLike"] = async (_, { articleId }, { 
     };
   }
 };
-

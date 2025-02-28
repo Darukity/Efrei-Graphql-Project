@@ -6,20 +6,16 @@ import "../styles/Register.css"; // Assurez-vous de créer ce fichier CSS
 
 // Mutation pour enregistrer un utilisateur
 const REGISTER_MUTATION = gql`
-  mutation CreateUser($username: String!, $password: String!) {
-    createUser(username: $username, password: $password) {
-      success
-      message
-      token
-    }
+mutation CreateUser($username: String!, $password: String!) {
+  createUser(username: $username, password: $password) {
+    success
   }
+}
 `;
 
-interface RegisterProps {
-  onRegister: (username: string) => void;
-}
 
-const Register: React.FC<RegisterProps> = ({ onRegister }) => {
+
+const Register: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -29,12 +25,8 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
     e.preventDefault();
     try {
       const { data } = await register({ variables: { username, password } });
-
       if (data.createUser.success) {
-        localStorage.setItem("token", data.createUser.token);
-        localStorage.setItem("username", username); 
-        onRegister(username); 
-        navigate("/dashboard");
+        navigate("/login");
       } else {
         console.error("Échec de l'inscription :", data.createUser.message);
       }

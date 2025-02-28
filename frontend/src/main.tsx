@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ApolloProvider } from "@apollo/client";
 import client from "./apolloClient";
@@ -12,6 +10,8 @@ import NewArticle from "./pages/NewArticle";
 import Menu from "./components/Menu";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
+import ArticleDetail from "./pages/ArticleDetail";
+import UserArticles from "./pages/UserArticles";
 
 const Main: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -40,18 +40,14 @@ const Main: React.FC = () => {
             {/* Route publique */}
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
-            <Route path="/register" element={<Register onRegister={handleLogin} />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/articles" element={<Articles />} />
-            <Route path="/newarticle" element={<NewArticle />} />
-
-            {/* Route protégée */}
-            <Route path="/dashboard" element={ <ProtectedRoute isAuthenticated={isAuthenticated}> <Dashboard /> </ProtectedRoute> }/>
-
-            {/* Redirection conditionnelle */}
-            <Route path="/old-route" element={<Navigate to="/" />} />
+            <Route path="/newarticle" element={<ProtectedRoute isAuthenticated={isAuthenticated}> <NewArticle /></ProtectedRoute>} />
+            <Route path="/article/:id" element={<ArticleDetail />} />
+            <Route path="/my-articles" element={<ProtectedRoute isAuthenticated={isAuthenticated}> <UserArticles /> </ProtectedRoute>} />
 
             {/* Route 404 */}
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<Home />} />
           </Routes>
         </BrowserRouter>
       </ApolloProvider>
