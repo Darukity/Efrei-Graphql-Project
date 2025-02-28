@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { gql } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Article } from "../generated/graphql";
 import "../styles/ArticleDetail.css";
 
@@ -45,6 +45,7 @@ const ADD_LIKE = gql`
   mutation AddLike($articleId: ID!) {
     addLike(articleId: $articleId) {
       success
+      message
     }
   }
 `;
@@ -70,6 +71,7 @@ const UPDATE_ARTICLE = gql`
 `;
 
 const ArticleDetail: React.FC = () => {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { data, loading, error } = useQuery(GET_ARTICLE_BY_ID, {
     variables: { id },
@@ -85,18 +87,18 @@ const ArticleDetail: React.FC = () => {
   const [content, setContent] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
-  useEffect(() => {
-    if (data) {
-      setTitle(data.getArticleById.title);
-      setContent(data.getArticleById.content);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     setTitle(data.getArticleById.title);
+  //     setContent(data.getArticleById.content);
+  //   }
+  // }, [data]);
 
   const handleAddComment = async () => {
     if (commentContent) {
       try {
         await addComment({ variables: { articleId: id, content: commentContent } });
-        setCommentContent(""); // Clear input field
+        setCommentContent(""); 
       } catch (error) {
         console.error("Error adding comment:", error);
       }
@@ -105,7 +107,13 @@ const ArticleDetail: React.FC = () => {
 
   const handleAddLike = async () => {
     try {
-      await addLike({ variables: { articleId: id } });
+      const { data } = await addLike({ variables: { articleId: id } });
+      if (data.addLike.success) {
+        window.location.reload();
+      }
+      else {
+        window.alert(data.addLike.message)
+      }
     } catch (error) {
       console.error("Error adding like:", error);
     }
@@ -115,7 +123,7 @@ const ArticleDetail: React.FC = () => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
       try {
         await deleteArticle({ variables: { deleteArticleId: id } });
-        // Optionally redirect or refresh after deletion
+        navigate("/articles");
       } catch (error) {
         console.error("Error deleting article:", error);
       }
@@ -162,6 +170,7 @@ const ArticleDetail: React.FC = () => {
           </div>
           <button onClick={handleUpdateArticle}>Mettre à jour</button>
           <button onClick={() => setIsEditing(false)}>Annuler</button>
+          <button onClick={handleDeleteArticle}>Delete</button>
         </div>
       ) : (
         <div className="article-content">
@@ -169,6 +178,7 @@ const ArticleDetail: React.FC = () => {
           <p><strong>Likes:</strong> {article.likesCount}</p>
         </div>
       )}
+      <button onClick={handleAddLike}>Like</button>
 
       <div className="comments-section">
         <h2>Commentaires</h2>
