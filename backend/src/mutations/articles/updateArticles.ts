@@ -8,8 +8,11 @@ export const updateArticle: MutationResolvers["updateArticle"] = async (
   
 
   if (!user) {
-   
-    throw new Error("You must be logged in to update an article");
+    return {
+      code: 401,
+      success: false,
+      message: "You must be logged in to update an article",
+    };
   }
 
   // Vérifie si l'article existe
@@ -20,19 +23,25 @@ export const updateArticle: MutationResolvers["updateArticle"] = async (
   
 
   if (!article) {
-   
-    throw new Error("Article not found");
+    return {
+      code: 404,
+      success: false,
+      message: "Article not found",
+    };
   }
 
   // Vérifie si l'utilisateur est l'auteur
   if (article.authorId !== user.id) {
-    
-    throw new Error("You are not authorized to update this article");
+    return {
+      code: 403,
+      success: false,
+      message: "You are not authorized to edit this article",
+    };
   }
 
   // Met à jour l'article
   try {
-    const updatedArticle = await db.article.update({
+    await db.article.update({
       where: { id },
       data: {
         title: title ?? article.title,
@@ -40,14 +49,17 @@ export const updateArticle: MutationResolvers["updateArticle"] = async (
       },
     });
 
-    
-
-    return updatedArticle;
+    return {
+      code: 200,
+      success: true,
+      message: "Article updated successfully",
+    };
   } catch (error) {
     
-    throw new Error("Failed to update article");
+    return {
+      code: 500,
+      success: false,
+      message: "Failed to delete article",
+    };
   }
 };
-
-
-
