@@ -85,14 +85,12 @@ const ArticleDetail: React.FC = () => {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
-
-  // useEffect(() => {
-  //   if (data) {
-  //     setTitle(data.getArticleById.title);
-  //     setContent(data.getArticleById.content);
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (data?.getArticleById) {
+      setTitle(data.getArticleById.title || "");
+      setContent(data.getArticleById.content || "");
+    }
+  }, [data]);
 
   const handleAddComment = async () => {
     if (commentContent) {
@@ -138,7 +136,7 @@ const ArticleDetail: React.FC = () => {
   };
 
   const handleUpdateArticle = async () => {
-    try {
+    try {      
       const { data } = await updateArticle({
         variables: {
           title,
@@ -147,7 +145,7 @@ const ArticleDetail: React.FC = () => {
         },
       });
       if (data.updateArticle.success) {
-        setIsEditing(false); // Quitter le mode édition après la mise à jour
+        window.location.reload();
       }
     } catch (error) {
       console.error("Erreur lors de la mise à jour de l'article", error);
@@ -162,30 +160,31 @@ const ArticleDetail: React.FC = () => {
   
   return (
     <div className="article-detail-container">
-      <h1>{article.title}</h1>
+      <h1><strong>Title: </strong>{article.title}</h1>
       <p><strong>Auteur:</strong> {article.author.username}</p>
       <p><strong>Publié le:</strong> {new Date(article.createdAt).toLocaleDateString()}</p>
+      <div className="article-content">
+          <p><strong>Content: </strong>{article.content}</p>
+          <p><strong>Likes: </strong> {article.likesCount}</p>
+          <button onClick={handleAddLike}>Like</button>
+        </div>
       {isAuthor ? (
         <div className="edit-form">
           <div>
             <label>Titre</label>
-            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <input type="text" className="articleTitle" value={title} placeholder={article.title} onChange={(e) => setTitle(e.target.value)} />
           </div>
           <div>
             <label>Contenu</label>
-            <textarea value={content} onChange={(e) => setContent(e.target.value)}/>
+            <textarea className="articleContent" value={content} placeholder={article.content} onChange={(e) => setContent(e.target.value)}/>
           </div>
           <button onClick={handleUpdateArticle}>Mettre à jour</button>
-          <button onClick={() => setIsEditing(false)}>Annuler</button>
-          <button onClick={handleDeleteArticle}>Delete</button>
+          <button onClick={() => { setContent(article.content); setTitle(article.title)}}>Annuler</button>
+          <div className="top">
+            <button onClick={handleDeleteArticle}>Delete Article</button>
+          </div>
         </div>
-      ) : (
-        <div className="article-content">
-          <p>{article.content}</p>
-          <p><strong>Likes:</strong> {article.likesCount}</p>
-        </div>
-      )}
-      <button onClick={handleAddLike}>Like</button>
+      ) : ( <></> )}
 
       <div className="comments-section">
         <h2>Commentaires</h2>

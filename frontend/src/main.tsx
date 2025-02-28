@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ApolloProvider } from "@apollo/client";
 import client from "./apolloClient";
@@ -40,17 +39,13 @@ const Main: React.FC = () => {
             {/* Route publique */}
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
-            <Route path="/register" element={<Register onRegister={handleLogin} />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/articles" element={<Articles />} />
-            <Route path="/newarticle" element={<NewArticle />} />
+            <Route path="/newarticle" element={<ProtectedRoute isAuthenticated={isAuthenticated}> <NewArticle /></ProtectedRoute>} />
             <Route path="/article/:id" element={<ArticleDetail />} />
-            {/* Route protégée 
-            <Route path="/dashboard" element={ <ProtectedRoute isAuthenticated={isAuthenticated}> <Dashboard /> </ProtectedRoute> }/>
-*/}
-
 
             {/* Route 404 */}
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<Home />} />
           </Routes>
         </BrowserRouter>
       </ApolloProvider>

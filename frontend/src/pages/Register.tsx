@@ -13,11 +13,9 @@ mutation CreateUser($username: String!, $password: String!) {
 }
 `;
 
-interface RegisterProps {
-  onRegister: (username: string) => void;
-}
 
-const Register: React.FC<RegisterProps> = ({ onRegister }) => {
+
+const Register: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
