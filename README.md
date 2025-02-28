@@ -10,6 +10,7 @@ Ce projet est une application full-stack utilisant **GraphQL**.
 - **Prisma** (ORM)
 - **SQLite** (Base de données locale)
 - **JWT** (Authentification)
+- **CodeGen** 
 
 ## ✅ Prérequis
 Avant de commencer, assure-toi d'avoir installé :
@@ -49,17 +50,36 @@ npm run dev  # En mode développement
 ```
 Le serveur GraphQL sera accessible sur **`http://localhost:4000/graphql`**.
 
-
-## 📌 Déploiement
-### 1️⃣ Générer un build production
-```bash
-npm run build
-```
-
-### 2️⃣ Lancer en production
-```bash
-npm start
-```
+---
+## 🚀 Frontend 
+Cette partie concerne le **frontend**, développé avec **React**, **TypeScript**, et **Apollo Client**.
 
 ---
-## 🚀 Frontend (À compléter)
+
+## 🚀 Technologies utilisées
+
+- **React** avec **Vite**  
+- **TypeScript**  
+- **Apollo Client** (pour la gestion de GraphQL)  
+- **GraphQL Code Generator** (CodeGen)  
+
+---
+
+## 📥 Installation
+
+### 1️⃣ Cloner le dépôt et installer les dépendances :
+
+```sh
+git clone https://github.com/Darukity/Efrei-Graphql-Project.git
+cd frontend
+npm install
+```
+---
+
+## 🚀 Lancer le serveur
+Pour démarrer l'application en mode développement :
+
+```sh
+npm run dev
+```
+L'application sera accessible sur : **`http://localhost:5173/`**.
