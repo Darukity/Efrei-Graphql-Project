@@ -83,3 +83,13 @@ Pour démarrer l'application en mode développement :
 npm run dev
 ```
 L'application sera accessible sur : **`http://localhost:5173/`**.
+
+---
+## ✅ Attention
+
+Les pages suivante peuvent ne pas afficher directement les nouvelles données.
+En actualisant la page, les données seront mise à jour.
+- **my-articles** 
+- **articles**
+  
+---
